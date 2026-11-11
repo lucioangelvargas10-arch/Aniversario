@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz 1er Aniversario | 9 de Diciembre</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Vinculación del CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos para las tarjetas de lugares */
+        .places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        .place-card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 15px 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .place-card:hover {
+            transform: translateY(-5px);
+        }
+        .place-number {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .place-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .place-title {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .place-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Estilos para la Última Sorpresa */
+        .surprise-card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 50px;
+            border: 2px solid var(--accent);
+        }
+        .surprise-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 5px 15px rgba(224, 58, 94, 0.3);
+        }
+        .surprise-btn:hover {
+            transform: scale(1.05);
+            background: #c82c4f;
+        }
+        .hidden-surprise {
+            display: none;
+            margin-top: 25px;
+            animation: fadeIn 0.8s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Corazones flotantes de fondo -->
+    <div id="bg-hearts"></div>
+
+    <!-- Pantalla de bienvenida / Sobre interactivo -->
+    <div id="intro-overlay">
+        <div class="envelope-wrapper" onclick="startGift()">
+            <div class="envelope-icon">💌</div>
+            <h2 style="color: white; margin-top: 15px; font-weight: 400;">Un regalo especial para ti</h2>
+            <button class="open-btn">Abrir Mi Regalo ❤️</button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <span class="badge">NUESTRO PRIMER AÑO JUNTOS</span>
+            <h1>¡Feliz Aniversario, Mi Amor!</h1>
+            <p style="color: #666; margin-top: 10px;">9 de Diciembre | Un año inolvidable a tu lado</p>
+        </header>
+
+        <!-- Contador de tiempo -->
+        <div class="timer-container">
+            <div class="timer-title">Contando cada segundo de nuestra historia:</div>
+            <div class="timer-grid">
+                <div class="time-box"><div class="time-num" id="days">00</div><div class="time-label">Días</div></div>
+                <div class="time-box"><div class="time-num" id="hours">00</div><div class="time-label">Horas</div></div>
+                <div class="time-box"><div class="time-num" id="minutes">00</div><div class="time-label">Minutos</div></div>
+                <div class="time-box"><div class="time-num" id="seconds">00</div><div class="time-label">Segundos</div></div>
+            </div>
+        </div>
+
+        <!-- Línea del tiempo / Historia -->
+        <h2 class="section-title">La Historia de Nosotros</h2>
+        <div class="timeline">
+            
+            <!-- Momento 1: Chilaquiles -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-tag">Nuestra Primera Cita</div>
+                    <h3 class="timeline-h3">Nuestra Primera Comida (Chilaquiles) 🍽️</h3>
+                    <p class="timeline-p">Cómo olvidar el día que fuimos a comer unos deliciosos chilaquiles para conocernos. Estaba un poco nervioso, pero desde que cruzamos miradas y sonreímos, supe que eras alguien increíblemente especial. Esa comida fue el inicio de nuestro camino juntos.</p>
+                </div>
+            </div>
+
+            <!-- Momento 2: Simiverso -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-tag">Nuestra Primera Aventura</div>
+                    <h3 class="timeline-h3">Cafetería del Doctor Simi (Simiverso) 🧸</h3>
+                    <p class="timeline-p">Nuestra primera salida más lejos juntos. Ir a explorar la cafetería del Doctor Simi y el Simiverso, probarnos cositas, tomarnos fotos frente al muro gigante y reírnos de todo. ¡Una cita verdaderamente inolvidable!</p>
+                    <div class="polaroid-frame">
+                        <img src="2.jpg" alt="Cafetería del Doctor Simi" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop'">
+                        <div class="polaroid-caption">En el Simiverso juntos ❤️</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Galería de fotos -->
+        <h2 class="section-title">Nuestros Momentos Especiales</h2>
+        <div class="gallery-grid">
+            <div class="polaroid-frame">
+                <img src="1.jpg" alt="Foto de la escuela" style="object-fit: contain; background-color: #f9f9f9;" onerror="this.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop'">
+                <div class="polaroid-caption"></div>
+            </div>
+            <div class="polaroid-frame" style="transform: rotate(2deg);">
+                <img src="3.jpg" alt="Cumpleaños" onerror="this.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop'">
+                <div class="polaroid-caption"></div>
+            </div>
+            <div class="polaroid-frame" style="transform: rotate(-2deg);">
+                <img src="4.jpg" alt="Playera de México" onerror="this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop'">
+                <div class="polaroid-caption"></div>
+            </div>
+            <div class="polaroid-frame" style="transform: rotate(1.5deg);">
+                <img src="5.jpg" alt="Al aire libre" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500&auto=format&fit=crop'">
+                <div class="polaroid-caption"></div>
+            </div>
+            <div class="polaroid-frame" style="transform: rotate(-1deg);">
+                <img src="6.jpg" alt="Graduación" style="object-fit: contain; background-color: #f9f9f9;" onerror="this.src='https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=500&auto=format&fit=crop'">
+                <div class="polaroid-caption"></div>
+            </div>
+        </div>
+
+        <!-- Carta de Amor -->
+        <div class="letter-card">
+            <div class="letter-header">De mi corazón para el tuyo...</div>
+            <div class="letter-body">
+                <p>Gracias por cada sonrisa, por cada abrazo reconfortante y por hacerme el hombre más feliz desde aquel primer día. Este primer año a tu lado ha sido el más bonito de todos, lleno de aventuras, salidas divertidas y recuerdos que guardo muy dentro de mí.</p>
+                <br>
+                <p>Prometo seguir cuidándote, haciéndote reír y caminando juntos hacia todos los planes y metas que nos faltan por cumplir.</p>
+            </div>
+            <div class="letter-sign">Te amo mucho.<br>Atentamente: Tu Luchito ❤️</div>
+        </div>
+
+        <!-- EL MAPA DE NUESTRA HISTORIA -->
+        <h2 class="section-title">El Mapa de Nuestra Historia 🗺️</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.95rem;">Cada lugar es un recuerdo que nos ha hecho tal y como somos.</p>
+        
+        <div class="places-grid">
+            <div class="place-card">
+                <div class="place-number">1</div>
+                <img src="1.jpg" alt="La Escuela" onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&auto=format&fit=crop'">
+                <div class="place-title">La Escuela</div>
+                <div class="place-desc">El inicio de todo, nuestras charlas y los deliciosos chilaquiles de nuestra primera cita.</div>
+            </div>
+            <div class="place-card">
+                <div class="place-number">2</div>
+                <img src="2.jpg" alt="Cafetería del Dr. Simi" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop'">
+                <div class="place-title">Cafetería del Dr. Simi</div>
+                <div class="place-desc">Nuestra divertida aventura explorando el Simi y tomando fotos increíbles juntos.</div>
+            </div>
+            <div class="place-card">
+                <div class="place-number">3</div>
+                <img src="zocalo.jpg" alt="Zócalo de la CDMX" onerror="this.src='https://images.unsplash.com/photo-1512813389647-36511a50ce0e?w=500&auto=format&fit=crop'">
+                <div class="place-title">Zócalo de la CDMX</div>
+                <div class="place-desc">El día que fuimos a ver la final del mundial.</div>
+            </div>
+            <div class="place-card">
+                <div class="place-number">4</div>
+                <img src="tepozotlan.jpg" alt="Tepotzotlán" onerror="this.src='https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=500&auto=format&fit=crop'">
+                <div class="place-title">Tepotzotlán</div>
+                <div class="place-desc">Nuestra hermosa salida a pasear por Tepotzotlán mientras comíamos unas ricas marquesitas.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE TU NOTA DE VOZ -->
+        <div style="background: white; border: 2px dashed var(--secondary); border-radius: 24px; padding: 30px; margin-bottom: 40px; text-align: center; box-shadow: var(--shadow);">
+            <h3 style="font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px;">Un Mensaje de Voz Para Ti 🎙️❤️</h3>
+            <p style="color: #666; font-size: 0.95rem; margin-bottom: 20px;">Escucha esto que grabé especialmente para este día...</p>
+            
+            <audio id="voiceAudio" controls style="width: 100%; max-width: 450px; accent-color: var(--primary);">
+                <source src="Audio.ogg" type="audio/ogg">
+                Tu navegador no soporta elementos de audio.
+            </audio>
+        </div>
+
+        <!-- SECCIÓN: UNA ÚLTIMA SORPRESA -->
+        <div class="surprise-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">❤️</div>
+            <h3 style="font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px;">Una Última Sorpresa</h3>
+            <p style="color: #666; font-size: 0.95rem; margin-bottom: 20px;">Pensabas que el regalo había terminado... Pero todavía tengo algo preparado para ti.</p>
+            
+            <button class="surprise-btn" id="revealBtn" onclick="revealSurprise()">Descubrir la sorpresa ✨</button>
+
+            <!-- Contenido oculto -->
+            <div class="hidden-surprise" id="surpriseContent">
+                <!-- Foto 6 arriba -->
+                <div class="polaroid-frame" style="max-width: 300px; margin: 0 auto 25px auto; transform: rotate(1deg);">
+                    <img src="6.jpg" alt="Nuestra foto especial" style="width: 100%; height: 240px; object-fit: contain; background-color: #f9f9f9;" onerror="this.src='https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=500&auto=format&fit=crop'">
+                    <div class="polaroid-caption" style="font-family: 'Dancing Script', cursive; font-size: 1.2rem;">Para ti, con todo mi cariño ❤️<br><span style="font-size: 0.75rem; font-family: 'Poppins', sans-serif;">- LUCHITO</span></div>
+                </div>
+                <p style="color: var(--primary); font-weight: 600; font-size: 1.1rem; font-family: 'Dancing Script', cursive; margin-bottom: 25px;">¡Ahora responde este pequeño juego, mi amor!</p>
+
+                <!-- PREGUNTA 1 -->
+                <div id="q1Container" style="background: #fff5f7; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #ffd1dc;">
+                    <h4 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 8px;">Pregunta 1 🍽️</h4>
+                    <p style="color: #555; margin-bottom: 15px;">¿Qué fue lo que comimos en nuestra primera cita?</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="quiz-btn" onclick="checkQ1(false)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Unas hamburguesas</button>
+                        <button class="quiz-btn" onclick="checkQ1(false)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Tacos al pastor</button>
+                        <button class="quiz-btn" onclick="checkQ1(true)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Unos chilaquiles</button>
+                        <button class="quiz-btn" onclick="checkQ1(false)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Pizza</button>
+                    </div>
+                    <div id="res1" style="margin-top: 10px; font-weight: 600;"></div>
+                </div>
+
+                <!-- PREGUNTA 2 -->
+                <div id="q2Container" style="background: #fff5f7; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #ffd1dc; display: none;">
+                    <h4 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 8px;">Pregunta 2 💋</h4>
+                    <p style="color: #555; margin-bottom: 15px;">¿Quién dio el primer beso?</p>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                        <button class="quiz-btn" onclick="checkQ2(false)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Yo</button>
+                        <button class="quiz-btn" onclick="checkQ2(true)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Tú</button>
+                        <button class="quiz-btn" onclick="checkQ2(false)" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">Los dos al mismo tiempo</button>
+                    </div>
+                    <div id="res2" style="margin-top: 10px; font-weight: 600;"></div>
+                </div>
+
+                <!-- PREGUNTA 3 -->
+                <div id="q3Container" style="background: #fff5f7; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #ffd1dc; display: none;">
+                    <h4 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 8px;">Pregunta 3 ✨</h4>
+                    <p style="color: #555; margin-bottom: 15px;">¿Quién fue la primera persona que te dijo que te quería conocer?</p>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                        <button class="quiz-btn" onclick="checkQ3('A')" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">A) Profe Oscar</button>
+                        <button class="quiz-btn" onclick="checkQ3('B')" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">B) Señora Mari</button>
+                        <button class="quiz-btn" onclick="checkQ3('C')" style="padding: 10px; border-radius: 12px; border: 1px solid var(--primary); background: white; cursor: pointer;">C) La mis Sofi</button>
+                    </div>
+                    <div id="res3" style="margin-top: 10px; font-weight: 600;"></div>
+                </div>
+
+                <!-- MENSAJE FINAL: DESAYUNO SORPRESA -->
+                <div id="finalSuccess" style="display: none; background: #fff0f3; padding: 25px; border-radius: 16px; border: 2px dashed var(--primary); color: var(--primary);">
+                    <div style="font-size: 32px; margin-bottom: 10px;">🥐☕🎉</div>
+                    <h3 style="font-family: 'Dancing Script', cursive; font-size: 2.3rem; margin-bottom: 8px;">¡Ganaste un Desayuno Sorpresa! ❤️</h3>
+                    <p style="color: #555; font-size: 1rem; line-height: 1.5;">¡Acertaste todo! Conoces cada detalle de nuestra historia. Prepárate porque te has ganado un delicioso desayuno sorpresa conmigo. ¡Te amo con todo mi corazón!</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Reproductor flotante discreto para la música de fondo -->
+    <div style="position: fixed; bottom: 20px; right: 20px; background: white; border: 2px solid var(--primary); padding: 8px 16px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 1000;">
+        <span style="font-size: 0.75rem; font-weight: 600; color: #555;">🎵 Música de fondo:</span>
+        <button onclick="toggleMusic()" id="musicToggleBtn" style="background: var(--primary); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;">❚❚</button>
+    </div>
+
+    <!-- Archivo de Música de Fondo -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="Cnacion.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts de interactividad -->
+    <script>
+        const music = document.getElementById('bgAudio');
+        const voice = document.getElementById('voiceAudio');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+
+        function createHearts() {
+            const container = document.getElementById('bg-hearts');
+            const hearts = ['❤️', '💖', '🌸', '✨', '💕'];
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        function startGift() {
+            const overlay = document.getElementById('intro-overlay');
+            const mainContent = document.getElementById('mainContent');
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.visibility = 'hidden';
+                mainContent.style.opacity = '1';
+            }, 1000);
+
+            confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            music.volume = 1.0;
+            music.play().then(() => {
+                musicToggleBtn.innerText = '❚❚';
+            }).catch(e => {
+                console.log("Auto-play prevented");
+            });
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicToggleBtn.innerText = '❚❚';
+            } else {
+                music.pause();
+                musicToggleBtn.innerText = '▶';
+            }
+        }
+
+        // Revelar sorpresa y mostrar foto 6 + pregunta 1
+        function revealSurprise() {
+            const content = document.getElementById('surpriseContent');
+            const btn = document.getElementById('revealBtn');
+            content.style.display = 'block';
+            btn.style.display = 'none';
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.7 }
+            });
+        }
+
+        // Lógica Pregunta 1 (Chilaquiles)
+        function checkQ1(isCorrect) {
+            const res = document.getElementById('res1');
+            if (isCorrect) {
+                res.style.color = '#2e7d32';
+                res.innerHTML = '¡Correcto, mi amor! 🍽️❤️';
+                confetti({ particleCount: 50, spread: 50 });
+                setTimeout(() => {
+                    document.getElementById('q1Container').style.display = 'none';
+                    document.getElementById('q2Container').style.display = 'block';
+                }, 1000);
+            } else {
+                res.style.color = '#c62828';
+                res.innerHTML = '¡Casi! Piensa en nuestra primera comida 😉';
+            }
+        }
+
+        // Lógica Pregunta 2 (Tú)
+        function checkQ2(isCorrect) {
+            const res = document.getElementById('res2');
+            if (isCorrect) {
+                res.style.color = '#2e7d32';
+                res.innerHTML = '¡Exacto, fuiste tú! 💋❤️';
+                confetti({ particleCount: 50, spread: 50 });
+                setTimeout(() => {
+                    document.getElementById('q2Container').style.display = 'none';
+                    document.getElementById('q3Container').style.display = 'block';
+                }, 1000);
+            } else {
+                res.style.color = '#c62828';
+                res.innerHTML = '¡Jaja casi! Inténtalo de nuevo 😉';
+            }
+        }
+
+        // Lógica Pregunta 3 (B) Señora Mari)
+        function checkQ3(ans) {
+            const res = document.getElementById('res3');
+            if (ans === 'B') {
+                res.style.color = '#2e7d32';
+                res.innerHTML = '¡Correcto! Fue la Señora Mari 🥰';
+                confetti({ particleCount: 60, spread: 60 });
+                setTimeout(() => {
+                    document.getElementById('q3Container').style.display = 'none';
+                    document.getElementById('finalSuccess').style.display = 'block';
+                    confetti({ particleCount: 200, spread: 120, origin: { y: 0.6 } });
+                }, 1000);
+            } else {
+                res.style.color = '#c62828';
+                res.innerHTML = '¡Mmmm no, prueba otra opción! 😉';
+            }
+        }
+
+        // Efecto automático: la música baja al 20% cuando suena tu voz
+        voice.addEventListener('play', function() {
+            music.volume = 0.2;
+        });
+
+        voice.addEventListener('pause', function() {
+            music.volume = 1.0;
+        });
+
+        voice.addEventListener('ended', function() {
+            music.volume = 1.0;
+        });
+
+        const anniversaryDate = new Date('2025-12-09T00:00:00');
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - anniversaryDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
